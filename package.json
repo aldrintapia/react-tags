@@ -2,7 +2,7 @@
   "name": "react-tag-input",
   "version": "4.7.1",
   "description": "React tags is a fantastically simple tagging component for your React projects",
-  "main": "dist-modules/ReactTags.js",
+  "main": "dist/ReactTags.min.js",
   "scripts": {
     "test": "jest --notify --coverage test/*",
     "open-localhost": "node -e 'require(\"opn\")(\"http://localhost:8090/example/index.html\")'",
