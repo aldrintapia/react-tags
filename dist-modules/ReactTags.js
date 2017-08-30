@@ -76,6 +76,7 @@ var ReactTags = function (_Component) {
       selectionMode: false
     };
 
+    _this.handleInputFocus = _this.handleInputFocus.bind(_this);
     _this.handleBlur = _this.handleBlur.bind(_this);
     _this.handleKeyDown = _this.handleKeyDown.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
@@ -97,19 +98,19 @@ var ReactTags = function (_Component) {
   }, {
     key: "resetAndFocusInput",
     value: function resetAndFocusInput() {
+      this.textInput.value = "";
+      this.textInput.focus();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
       var _props = this.props,
           autofocus = _props.autofocus,
           readOnly = _props.readOnly;
 
       if (autofocus && !readOnly) {
-        this.textInput.value = "";
-        this.textInput.focus();
+        this.resetAndFocusInput();
       }
-    }
-  }, {
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this.resetAndFocusInput();
     }
   }, {
     key: "filteredSuggestions",
@@ -158,6 +159,15 @@ var ReactTags = function (_Component) {
         suggestions: suggestions,
         selectedIndex: selectedIndex
       });
+    }
+  }, {
+    key: "handleInputFocus",
+    value: function handleInputFocus(e) {
+      var value = e.target.value.trim();
+      if (this.props.handleInputFocus) {
+        this.props.handleInputFocus(value);
+        this.textInput.value = "";
+      }
     }
   }, {
     key: "handleBlur",
@@ -350,6 +360,7 @@ var ReactTags = function (_Component) {
           type: "text",
           placeholder: placeholder,
           "aria-label": placeholder,
+          onFocus: this.handleInputFocus,
           onBlur: this.handleBlur,
           onChange: this.handleChange,
           onKeyDown: this.handleKeyDown,
@@ -400,6 +411,7 @@ ReactTags.PropTypes = {
   handleFilterSuggestions: _propTypes2.default.func,
   allowDeleteFromEmptyInput: _propTypes2.default.bool,
   handleInputChange: _propTypes2.default.func,
+  handleInputFocus: _propTypes2.default.func,
   handleInputBlur: _propTypes2.default.func,
   minQueryLength: _propTypes2.default.number,
   shouldRenderSuggestions: _propTypes2.default.func,
